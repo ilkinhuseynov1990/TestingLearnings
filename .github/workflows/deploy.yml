@@ -1,9 +1,8 @@
 name: Publish To Local Server
 
 on:
- push:
-  branches: ["master"]
- 
+  push:
+    branches: ["master"]
 
 jobs:
   build-and-deploy:
@@ -16,24 +15,24 @@ jobs:
       - name: Publish To Local Server
         run: dotnet publish --configuration Release --output ./publish
 
-      - name: Deploy To IIS 
+      - name: Deploy To IIS
         shell: powershell
         run: |
-            try{
-              Stop-WebAppPool -Name "TestingLearnings"
-              Start-Sleep -Seconds 3
-              Write-Host "Application Pool dayandırıldı."
-            } catch {
-              Write-Host "Application Pool bulunamadı veya zaten durdurulmuş."
-            }
-            #copy files to IIS directory
-            Copy-Item -Path "./publish/*" -Destination "C:\inetpub\wwwroot\TicketApp" -Recurse -Force
-            Write-Host "Yeni fayllar uğurla kopyalandı."
+          try{
+            Stop-WebAppPool -Name "TestingLearnings"
+            Start-Sleep -Seconds 3
+            Write-Host "Application Pool dayandırıldı."
+          } catch {
+            Write-Host "Application Pool bulunamadı veya zaten durdurulmuş."
+          }
+          #copy files to IIS directory
+          Copy-Item -Path "./publish/*" -Destination "C:\inetpub\wwwroot\TestingLearnings" -Recurse -Force
+          Write-Host "Yeni fayllar uğurla kopyalandı."
 
 
-            try{
-              Start-WebAppPool -Name "TestingLearnings"
-              Write-Host "Application Pool işə salındı."
-            } catch {
-              Write-Host "Application Pool işə salınmadı."
-            }
+          try{
+            Start-WebAppPool -Name "TestingLearnings"
+            Write-Host "Application Pool işə salındı."
+          } catch {
+            Write-Host "Application Pool işə salınmadı."
+          }
